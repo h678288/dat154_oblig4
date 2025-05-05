@@ -1,0 +1,19 @@
+﻿@model WebApplication1.ViewModels.LoginViewModel
+
+<h2>Login</h2>
+<form asp-action="Login" method="post">
+    <div asp-validation-summary="All"></div>
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div class="form-group">
+        <label asp-for="Tlf"></label>
+        <input asp-for="Tlf" class="form-control" />
+        <span asp-validation-for="Tlf" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+   
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>

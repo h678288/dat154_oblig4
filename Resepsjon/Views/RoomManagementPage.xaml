@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Resepsjon.ViewModels"
+             xmlns:model="clr-namespace:HotelDBLibrary.Models;assembly=HotelDBLibrary"
+             x:DataType="vm:RoomManagementViewModel"
+             x:Class="Resepsjon.Views.RoomManagementPage"
+             Title="Manage Rooms">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="10" Spacing="15">
+
+            <Label Text="{Binding StatusMessage}"
+                   TextColor="Gray"
+                   FontSize="Small"
+                   Margin="5,0,5,0"/>
+
+            <Label Text="Existing Rooms" FontSize="18" FontAttributes="Bold" Margin="5,0,5,0"/>
+            <RefreshView Command="{Binding LoadRoomsCommand}" IsRefreshing="{Binding IsRefreshing}">
+                <CollectionView x:Name="RoomsCollectionView"
+                                ItemsSource="{Binding Rooms}"
+                                SelectionMode="None"
+                                MinimumHeightRequest="200">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Room">
+                            <Border StrokeShape="RoundRectangle 5" Padding="10" Margin="5" StrokeThickness="1" Stroke="LightGray">
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto" ColumnSpacing="10">
+                                    <Label Grid.Row="0" Grid.Column="0" FontSize="Body">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Room ID: " FontAttributes="Bold"/>
+                                                <Span Text="{Binding Id}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="1" Grid.Column="0" FontSize="Small">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Type: "/>
+                                                <Span Text="{Binding Type}"/>
+                                                <Span Text=", Beds: "/>
+                                                <Span Text="{Binding NumOfBeds}"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="1"
+                                            Text="Change Status"
+                                            FontSize="Small"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:RoomManagementViewModel}}, Path=ChangeStatusCommand}"
+                                            CommandParameter="{Binding .}" VerticalOptions="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Label Text="No rooms found. Pull down to refresh." HorizontalOptions="Center" VerticalOptions="Center" Margin="20" TextColor="Gray"/>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </RefreshView>
+
+            <Border StrokeShape="RoundRectangle 5" Padding="15" Margin="5,10,5,5" StrokeThickness="1" Stroke="LightGray">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Add New Room" FontSize="Medium" FontAttributes="Bold"/>
+
+                    <Grid ColumnDefinitions="Auto,*" RowDefinitions="Auto,Auto" RowSpacing="5" ColumnSpacing="10">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Room Type:" VerticalOptions="Center"/>
+                        <Entry Grid.Row="0" Grid.Column="1"
+                               Text="{Binding NewRoom.Type}"
+                               Placeholder="One character (e.g. S, D)"
+                               MaxLength="1"
+                               Keyboard="Text"
+                               ClearButtonVisibility="WhileEditing"/>
+
+                        <Label Grid.Row="1" Grid.Column="0" Text="Number of Beds:" VerticalOptions="Center"/>
+                        <Entry Grid.Row="1" Grid.Column="1"
+                              Text="{Binding NewRoom.NumOfBeds}"
+                              Placeholder="E.g. 2"
+                              Keyboard="Numeric"
+                              ClearButtonVisibility="WhileEditing"/>
+                    </Grid>
+
+                    <Button Text="Add Room" Command="{Binding AddRoomCommand}" HorizontalOptions="Fill"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="Back to Dashboard"
+                    Command="{Binding GoBackToDashboardCommand}"
+                    HorizontalOptions="Fill"
+                    Margin="5"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

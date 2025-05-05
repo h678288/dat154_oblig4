@@ -1,0 +1,15 @@
+﻿@model HotelDBLibrary.Models.Reservation
+
+<h2>Reservation Confirmation</h2>
+
+<div>
+    <h4>Your reservation has been confirmed!</h4>
+    <p><strong>Reservation ID:</strong> @Model.Id</p>
+    <p><strong>Room ID:</strong> @Model.RoomId</p>
+    <p><strong>Start Date:</strong> @Model.Start.ToString("MM/dd/yyyy")</p>
+    <p><strong>End Date:</strong> @Model.End.ToString("MM/dd/yyyy")</p>
+    <p><strong>Number of Guests:</strong> @Model.NumberOfGuests</p>
+   
+
+    <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Back to Room Listings</a>
+</div>

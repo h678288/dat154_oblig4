@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Resepsjon.ViewModels"
+             x:Class="Resepsjon.Views.FrontDeskDashboardPage"
+             x:DataType="vm:FrontDeskDashboardViewModel"
+             Title="Dashboard">
+
+    <VerticalStackLayout Padding="20" Spacing="15">
+
+        <Label
+            Text="{Binding WelcomeMessage}"
+            FontSize="Large"
+            HorizontalOptions="Center"
+            SemanticProperties.HeadingLevel="Level1" />
+
+        <Label
+            Text="{Binding DashboardInfo}"
+            FontSize="Medium"
+            HorizontalOptions="Center"
+            SemanticProperties.Description="{Binding DashboardInfo}" />
+
+        <Button
+            Text="Manage Reservations"
+            Command="{Binding GoToReservationsCommand}"
+            HorizontalOptions="Fill" />
+
+        <Button
+            Text="Manage Rooms"
+            Command="{Binding GoToRoomsCommand}"
+            HorizontalOptions="Fill" />
+
+        <Button
+            Text="Register New Task"
+            Command="{Binding GoToTasksCommand}"
+            HorizontalOptions="Fill" />
+
+    </VerticalStackLayout>
+
+</ContentPage>

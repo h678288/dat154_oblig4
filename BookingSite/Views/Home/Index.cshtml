@@ -1,0 +1,30 @@
+﻿@model List<Room>
+
+<h2>Available Rooms</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Number of Beds</th>
+        <th>Size (m²)</th>
+        <th>Quality</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var room in Model)
+    {
+        <tr>
+            <td>@room.NumOfBeds</td>
+            <td>@room.Type</td>
+            <td>
+                <a href="@Url.Action("Book", "Rooms", new { id = room.Id })" class="btn btn-primary">Book</a>
+                <a href="@Url.Action("Register", "Account")">Register</a>
+                <a href="@Url.Action("Login", "Account")">Login</a>
+
+
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

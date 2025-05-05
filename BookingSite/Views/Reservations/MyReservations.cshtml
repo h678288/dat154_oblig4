@@ -1,0 +1,33 @@
+﻿@model IEnumerable<HotelDBLibrary.Models.Reservation>
+
+<h2>My Reservations</h2>
+
+@if (!Model.Any())
+{
+    <p>You have no reservations.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Room</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Number of Guests</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                <td>@reservation.Room.Type</td>
+                <td>@reservation.Start.ToShortDateString()</td>
+                <td>@reservation.End.ToShortDateString()</td>
+                <td>@reservation.NumberOfGuests</td>
+                
+            </tr>
+        }
+        </tbody>
+    </table>
+}

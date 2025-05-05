@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:Resepsjon.ViewModels"
+             xmlns:model="clr-namespace:HotelDBLibrary.Models;assembly=HotelDBLibrary"
+             x:DataType="vm:ReservationViewModel"
+             x:Class="Resepsjon.Views.ReservationPage"
+             Title="Manage Reservation">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="10">
+            <Label Text="New Reservation / Details" FontSize="Large" FontAttributes="Bold"/>
+
+            <Button Text="← Back to Dashboard"
+                    Command="{Binding GoBackToDashboardCommand}"
+                    HorizontalOptions="Start"
+                    FontSize="Small"
+                    Margin="0,0,0,10"/>
+
+            <Frame Padding="15" Margin="0,0,0,15" BorderColor="LightGray">
+                <VerticalStackLayout Spacing="8">
+                    <Label Text="Guest Phone:" />
+                    <Entry Text="{Binding CurrentReservation.GuestId}" Keyboard="Telephone" Placeholder="Guest's Phone"/>
+
+                    <Label Text="Room ID:" />
+                    <Entry Text="{Binding CurrentReservation.RoomId}" Keyboard="Numeric" Placeholder="Room number"/>
+
+                    <Label Text="Number of Guests:" />
+                    <Entry Text="{Binding CurrentReservation.NumberOfGuests}" Keyboard="Numeric"/>
+
+                    <Label Text="Start Date:"/>
+                    <DatePicker Date="{Binding CurrentReservation.Start}" />
+
+                    <Label Text="End Date:"/>
+                    <DatePicker Date="{Binding CurrentReservation.End}" />
+
+                    <Label Text="Status:" />
+                    <Entry Text="{Binding CurrentReservation.Status}" Placeholder="E.g. Confirmed"/>
+
+                    <Button Text="Add Reservation" Command="{Binding AddReservationCommand}" Margin="0,10,0,0"/>
+                    </VerticalStackLayout>
+            </Frame>
+
+            <Label Text="Find Reservations" FontSize="Medium" FontAttributes="Bold" Margin="0,10,0,5"/>
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                <VerticalStackLayout Grid.Column="0">
+                    <Label Text="Guest Phone (optional):" FontSize="Small" />
+                    <Entry Text="{Binding SearchGuestTlf}" Keyboard="Telephone"/>
+                    <Label Text="Room ID (optional):" FontSize="Small" />
+                    <Entry Text="{Binding SearchRoomId}" Keyboard="Numeric"/>
+                </VerticalStackLayout>
+                <Button Grid.Column="1" Text="Find" Command="{Binding FindReservationsCommand}" VerticalOptions="End"/>
+            </Grid>
+
+            <Label Text="{Binding StatusMessage}" TextColor="Gray" Margin="0,10,0,0"/>
+
+            <Label Text="Found Reservations:" FontAttributes="Bold" Margin="0,10,0,5"/>
+            <RefreshView Command="{Binding FindReservationsCommand}" IsRefreshing="{Binding IsRefreshing}">
+                <CollectionView ItemsSource="{Binding FoundReservations}"
+                                SelectionMode="Single"
+                                SelectionChangedCommand="{Binding SelectReservationCommand}"
+                                SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Reservation">
+                            <Frame Padding="10" Margin="5" BorderColor="LightGray">
+                                <Grid ColumnDefinitions="*, Auto">
+                                    <VerticalStackLayout Grid.Column="0">
+                                        <Label Text="{Binding Id, StringFormat='Res ID: {0}'}" FontAttributes="Bold"/>
+                                        <Label Text="{Binding GuestId, StringFormat='Guest Phone: {0}'}" />
+                                        <Label Text="{Binding RoomId, StringFormat='Room: {0}'}" />
+                                        <Label Text="{Binding Start, StringFormat='Start: {0:d}'}" />
+                                        <Label Text="{Binding End, StringFormat='End: {0:d}'}" />
+                                        <Label Text="{Binding Status, StringFormat='Status: {0}'}" FontAttributes="Italic"/>
+                                        <Label Text="{Binding NumberOfGuests, StringFormat='Number of guests: {0}'}"/>
+                                        <Label Text="{Binding ReservationDate, StringFormat='Booked: {0:g}'}" FontSize="Micro"/>
+                                    </VerticalStackLayout>
+                                    <Button Grid.Column="1" Text="Delete" TextColor="Red" FontSize="Small"
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ReservationViewModel}}, Path=DeleteReservationCommand}"
+                                            CommandParameter="{Binding Id}"
+                                            VerticalOptions="End"/>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                    <CollectionView.EmptyView>
+                        <Label Text="No reservations found." Padding="20"/>
+                    </CollectionView.EmptyView>
+                </CollectionView>
+            </RefreshView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
